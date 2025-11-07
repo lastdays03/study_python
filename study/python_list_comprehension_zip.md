@@ -420,38 +420,7 @@ print(result)  # 홍길동은 25세, 서울에 살고 있습니다.
 
 ### 2.4 리스트 컴프리헨션에서 언패킹 사용
 
-#### 튜플 리스트 언패킹
-
-```python
-# 튜플 리스트에서 언패킹
-pairs = [(1, 2), (3, 4), (5, 6)]
-sums = [x + y for x, y in pairs]
-print(sums)  # [3, 7, 11]
-
-# 실행 과정:
-# (1, 2) → x=1, y=2 → 1+2=3
-# (3, 4) → x=3, y=4 → 3+4=7
-# (5, 6) → x=5, y=6 → 5+6=11
-```
-
-#### 딕셔너리 items() 언패킹
-
-```python
-# 딕셔너리에서 키-값 쌍 언패킹
-person = {'name': '홍길동', 'age': 25, 'city': '서울'}
-info_list = [f"{key}: {value}" for key, value in person.items()]
-print(info_list)
-# ['name: 홍길동', 'age: 25', 'city: 서울']
-```
-
-#### 여러 변수 언패킹
-
-```python
-# 세 개의 값 언패킹
-triples = [(1, 2, 3), (4, 5, 6), (7, 8, 9)]
-sums = [x + y + z for x, y, z in triples]
-print(sums)  # [6, 15, 24]
-```
+리스트 컴프리헨션에서 언패킹을 사용하면 튜플이나 리스트의 요소를 개별 변수로 분리하여 사용할 수 있습니다. 자세한 내용은 섹션 4를 참고하세요.
 
 ### 2.5 언패킹의 실전 활용
 
@@ -553,6 +522,8 @@ print(list(zip(l1, l2, l3)))  # [(1, 4, 11), (2, 5, 12), (3, 6, 13)]
 
 ### 3.3 zip()과 언패킹 조합
 
+zip 결과를 언패킹하여 사용하면 튜플 인덱싱 없이 직접 변수로 사용할 수 있습니다.
+
 ```python
 # zip 결과를 언패킹하여 사용
 l1 = [1, 2, 3]
@@ -566,20 +537,102 @@ for x, y in zip(l1, l2):
 # x=3, y=6
 ```
 
-**언패킹 없이 사용하면:**
+### 3.4 zip()의 실전 활용
+
+#### 두 리스트를 딕셔너리로 변환
+
 ```python
-# 언패킹 없이 사용하면 튜플 인덱싱 필요
-for item in zip(l1, l2):
-    x = item[0]  # 튜플 인덱싱 필요
-    y = item[1]
+keys = ['name', 'age', 'city']
+values = ['홍길동', 25, '서울']
+person = dict(zip(keys, values))
+print(person)  # {'name': '홍길동', 'age': 25, 'city': '서울'}
 ```
 
-**언패킹 사용하면:**
+#### 리스트 전치(행과 열 바꾸기)
+
 ```python
-# 언패킹 사용하면 직접 변수로 사용 가능
-for x, y in zip(l1, l2):
-    # x와 y를 직접 사용 가능
-    pass
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+transposed = list(zip(*matrix))
+print(transposed)  # [(1, 4, 7), (2, 5, 8), (3, 6, 9)]
+```
+
+#### 여러 리스트를 동시에 순회
+
+```python
+names = ['홍길동', '김철수', '이영희']
+ages = [25, 30, 28]
+cities = ['서울', '부산', '대구']
+
+for name, age, city in zip(names, ages, cities):
+    print(f"{name}은(는) {age}세이고 {city}에 살고 있습니다.")
+```
+
+#### zip으로 묶은 후 다시 분리하기
+
+```python
+l1 = [1, 2, 3]
+l2 = [4, 5, 6]
+
+zipped = list(zip(l1, l2))
+print(zipped)  # [(1, 4), (2, 5), (3, 6)]
+
+# 언패킹으로 다시 분리
+unzipped_l1, unzipped_l2 = zip(*zipped)
+print(list(unzipped_l1))  # [1, 2, 3]
+print(list(unzipped_l2))  # [4, 5, 6]
+```
+
+#### 딕셔너리와 zip 활용
+
+```python
+# 딕셔너리의 키와 값을 zip으로 묶기
+d1 = {'a': 1, 'b': 2, 'c': 3}
+print(list(zip(d1.keys(), d1.values())))  # [('a', 1), ('b', 2), ('c', 3)]
+
+# items() 메서드와 동일한 결과
+print(list(d1.items()))  # [('a', 1), ('b', 2), ('c', 3)]
+```
+
+### 3.5 zip() 주의사항
+
+#### zip 객체는 한 번만 사용 가능
+
+```python
+l1 = [1, 2, 3]
+l2 = [4, 5, 6]
+zipped = zip(l1, l2)
+
+print(list(zipped))  # [(1, 4), (2, 5), (3, 6)]
+print(list(zipped))  # [] - 이미 소비됨!
+
+# 해결책: 리스트로 변환하여 저장
+zipped_list = list(zip(l1, l2))
+print(list(zipped_list))  # [(1, 4), (2, 5), (3, 6)]
+print(list(zipped_list))  # [(1, 4), (2, 5), (3, 6)] - 재사용 가능
+```
+
+#### 길이가 다른 경우 주의
+
+```python
+# 기본 zip은 짧은 길이에 맞춤
+l1 = [1, 2, 3]
+l2 = [4, 5, 6, 7, 8]
+print(list(zip(l1, l2)))  # [(1, 4), (2, 5), (3, 6)] - 7, 8은 무시됨
+
+# itertools.zip_longest 사용하면 긴 것에 맞춤
+from itertools import zip_longest
+
+print(list(zip_longest(l1, l2, fillvalue=0)))
+# [(1, 4), (2, 5), (3, 6), (0, 7), (0, 8)]
+```
+
+#### 빈 이터러블 처리
+
+```python
+# 빈 리스트와 zip하면 빈 결과 반환
+l1 = []
+l2 = [1, 2, 3]
+print(list(zip(l1, l2)))  # []
 ```
 
 ## 4. 리스트 컴프리헨션과 언패킹 조합
@@ -593,6 +646,11 @@ for x, y in zip(l1, l2):
 pairs = [(1, 2), (3, 4), (5, 6)]
 sums = [x + y for x, y in pairs]
 print(sums)  # [3, 7, 11]
+
+# 실행 과정:
+# (1, 2) → x=1, y=2 → 1+2=3
+# (3, 4) → x=3, y=4 → 3+4=7
+# (5, 6) → x=5, y=6 → 5+6=11
 ```
 
 ### 4.2 딕셔너리 items()와 조합
@@ -853,7 +911,7 @@ students = [{'name': n, 'score': s} for n, s in zip(names, scores)]  # 짧은 �
 names = ['홍길동', '김철수', '이영희']
 scores = [85, 92]  # 길이가 다름
 
-# zip은 짧은 것에 맞춤
+# zip은 짧은 것에 맞춤 (섹션 3.5 참고)
 students = [{'name': n, 'score': s} for n, s in zip(names, scores)]
 print(students)
 # [{'name': '홍길동', 'score': 85}, {'name': '김철수', 'score': 92}]
