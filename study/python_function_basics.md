@@ -1,0 +1,290 @@
+# 파이썬 함수 기본 사용법
+
+## 1. 함수 정의 기본
+
+```python
+def function_name(param1, param2):
+    """함수 설명"""
+    return result
+
+# 사용 예시
+result = function_name(1, 2)
+```
+
+## 2. 파라미터 종류
+
+### 위치 인자 (Positional Arguments)
+
+```python
+def add(a, b, c):
+    return a + b + c
+
+# 호출 시 순서대로 전달
+result = add(1, 2, 3)
+```
+
+### 키워드 인자 (Keyword Arguments)
+
+```python
+def greet(name, age, city):
+    return f"{name}님은 {age}세, {city}에 거주합니다"
+
+# 키워드로 전달 (순서 무관)
+result = greet(city="서울", age=25, name="홍길동")
+```
+
+### 기본값 파라미터 (Default Parameters)
+
+```python
+def greet(name, age=0, city="서울"):
+    return f"{name}님은 {age}세, {city}에 거주합니다"
+
+# 기본값 사용
+greet("홍길동")  # age=0, city="서울" 사용
+greet("김철수", 25)  # city="서울" 사용
+greet("이영희", 30, "부산")  # 모든 값 지정
+```
+
+### 가변 위치 인자 (`*args`)
+
+```python
+def calculate_sum(*numbers):
+    """여러 숫자의 합을 계산"""
+    total = 0
+    for num in numbers:
+        total += num
+    return total
+
+# 사용 예시
+result = calculate_sum(1, 2, 3, 4, 5)  # 15
+# numbers는 튜플로 전달됨: (1, 2, 3, 4, 5)
+```
+
+### 가변 키워드 인자 (`**kwargs`)
+
+```python
+def create_profile(**info):
+    """키워드 인자들을 딕셔너리로 받음"""
+    profile = {}
+    for key, value in info.items():
+        profile[key] = value
+    return profile
+
+# 사용 예시
+profile = create_profile(name="홍길동", age=25, city="서울")
+# info = {"name": "홍길동", "age": 25, "city": "서울"}
+```
+
+### 키워드 전용 인자
+
+```python
+def register_user(name, *, email, age=0):
+    """
+    * 이후의 파라미터는 키워드 인자로만 전달 가능
+    """
+    return f"{name} ({email}, {age}세)"
+
+# 사용 예시
+user = register_user("홍길동", email="hong@example.com", age=25)
+# user = register_user("홍길동", "hong@example.com")  # ❌ 오류
+```
+
+### 파라미터 조합 예시
+
+```python
+def complex_function(
+    required_arg: str,
+    default_arg: int = 10,
+    *args,
+    keyword_only: str,
+    **kwargs
+) -> None:
+    """
+    파라미터 순서:
+    1. 필수 위치 인자
+    2. 기본값 위치 인자
+    3. *args (가변 위치 인자)
+    4. 키워드 전용 인자 (* 이후)
+    5. **kwargs (가변 키워드 인자)
+    """
+    print(f"required: {required_arg}")
+    print(f"default: {default_arg}")
+    print(f"args: {args}")
+    print(f"keyword_only: {keyword_only}")
+    print(f"kwargs: {kwargs}")
+
+# 사용 예시
+complex_function(
+    "필수값",
+    20,
+    "arg1", "arg2",
+    keyword_only="키워드",
+    extra1="value1",
+    extra2="value2"
+)
+```
+
+## 3. 리턴값 (Return Value)
+
+### 리턴값이 있는 함수
+
+```python
+def add(a: int, b: int) -> int:
+    """명시적으로 값 반환"""
+    return a + b
+
+def multiply(a: int, b: int) -> int:
+    result = a * b
+    return result
+
+# 사용 예시
+result1 = add(5, 3)  # 8
+result2 = multiply(4, 7)  # 28
+```
+
+### 리턴값이 없는 함수
+
+```python
+def print_info(name: str) -> None:
+    """리턴값 없음 (None 반환)"""
+    print(f"이름: {name}")
+    # return None  # 생략 가능
+
+def update_counter() -> None:
+    """리턴값 없이 상태만 변경"""
+    global count
+    count += 1
+
+# 사용 예시
+print_info("홍길동")  # 이름: 홍길동 출력
+```
+
+### 여러 값 반환 (튜플 언패킹)
+
+```python
+def get_statistics(numbers: list) -> tuple[int, float, int]:
+    """최소값, 평균, 최대값을 함께 반환"""
+    minimum = min(numbers)
+    maximum = max(numbers)
+    average = sum(numbers) / len(numbers)
+    return (minimum, average, maximum)
+
+# 사용 예시
+numbers = [1, 5, 3, 9, 2]
+min_val, avg_val, max_val = get_statistics(numbers)
+```
+
+### 조건부 리턴
+
+```python
+def validate_age(age: int) -> bool:
+    """조건에 따라 다르게 반환"""
+    if age < 0:
+        return False
+    elif age > 150:
+        return False
+    else:
+        return True
+
+def find_item(items: list, target: str) -> str | None:
+    """찾으면 반환, 없으면 None"""
+    if target in items:
+        return target
+    return None  # 명시적으로 None 반환
+```
+
+## 4. 타입 힌팅
+
+```python
+from typing import Optional, List, Dict, Any, Callable
+
+def process_data(
+    name: str,                           # 문자열
+    age: int = 0,                        # 정수 (기본값)
+    items: Optional[List[str]] = None,   # 선택적 리스트
+    data: Dict[str, Any] = None,         # 딕셔너리
+    callback: Callable = None            # 함수
+) -> bool:                               # 반환 타입
+    """타입 힌팅을 사용한 함수"""
+    return True
+
+# Python 3.10+ 사용 가능한 새로운 문법
+def process_data_new(
+    items: list[str] | None = None,      # list[str] | None
+    result: str | int                     # Union[str, int]
+) -> None:
+    pass
+```
+
+## 5. 람다 함수 (Lambda)
+
+```python
+# 간단한 함수를 한 줄로 정의
+add = lambda x, y: x + y
+result = add(3, 5)  # 8
+
+# map, filter, sorted 등과 함께 사용
+numbers = [1, 2, 3, 4, 5]
+squared = list(map(lambda x: x ** 2, numbers))  # [1, 4, 9, 16, 25]
+evens = list(filter(lambda x: x % 2 == 0, numbers))  # [2, 4]
+```
+
+## 6. 함수 데코레이터
+
+```python
+def my_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("함수 실행 전")
+        result = func(*args, **kwargs)
+        print("함수 실행 후")
+        return result
+    return wrapper
+
+@my_decorator
+def greet(name):
+    print(f"안녕하세요, {name}님!")
+
+# 사용 예시
+greet("홍길동")
+# 출력:
+# 함수 실행 전
+# 안녕하세요, 홍길동님!
+# 함수 실행 후
+```
+
+## 7. 주의사항
+
+### 기본값 파라미터의 주의점
+
+```python
+# ❌ 나쁜 예: 가변 객체를 기본값으로 사용
+def add_item(item, items=[]):  # 리스트는 기본값으로 사용하지 말 것
+    items.append(item)
+    return items
+
+# ✅ 좋은 예
+def add_item(item, items=None):
+    if items is None:
+        items = []
+    items.append(item)
+    return items
+```
+
+### 파라미터 순서 규칙
+
+```python
+def function(
+    required,          # 1. 필수 위치 인자
+    default=10,       # 2. 기본값 위치 인자
+    *args,             # 3. 가변 위치 인자
+    keyword_only,      # 4. 키워드 전용 인자 (* 이후)
+    **kwargs           # 5. 가변 키워드 인자
+):
+    pass
+```
+
+---
+
+**작성일**: 2024  
+**참고**: Python 3.x 기준, 타입 힌팅은 Python 3.5+ 지원
+

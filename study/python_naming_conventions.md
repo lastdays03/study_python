@@ -1,0 +1,351 @@
+# 파이썬 권장 명명규칙 (PEP 8 가이드)
+
+## 1. 변수명 (Variables)
+
+```python
+# ✅ 권장: 소문자와 언더스코어 사용
+user_name = "홍길동"
+total_count = 100
+is_active = True
+
+# ❌ 비권장
+userName = "홍길동"  # camelCase
+TotalCount = 100     # PascalCase
+```
+
+## 2. 함수명 (Functions)
+
+```python
+# ✅ 권장: 소문자와 언더스코어 사용
+def calculate_total():
+    pass
+
+def get_user_info():
+    pass
+
+def is_valid_email():
+    pass
+
+# ❌ 비권장
+def CalculateTotal():  # PascalCase
+def getUserInfo():     # camelCase
+```
+
+## 3. 클래스명 (Classes)
+
+```python
+# ✅ 권장: PascalCase (CapWords)
+class UserProfile:
+    pass
+
+class DatabaseConnection:
+    pass
+
+class HTTPRequestHandler:
+    pass
+
+# ❌ 비권장
+class user_profile:  # 소문자
+class databaseConnection:  # camelCase
+```
+
+## 4. 상수 (Constants)
+
+```python
+# ✅ 권장: 대문자와 언더스코어
+MAX_CONNECTIONS = 100
+DEFAULT_TIMEOUT = 30
+API_BASE_URL = "https://api.example.com"
+
+# ❌ 비권장
+max_connections = 100  # 변수처럼 보임
+```
+
+## 5. 모듈명 (Modules)
+
+```python
+# ✅ 권장: 소문자, 짧고 명확하게
+# 파일명: user_utils.py, database.py
+import user_utils
+import database
+
+# ❌ 비권장
+# 파일명: UserUtils.py, Database.py
+```
+
+## 6. 패키지명 (Packages)
+
+```python
+# ✅ 권장: 소문자, 언더스코어 사용하지 않는 것이 선호됨
+# 폴더명: mypackage, utils, data_processing
+import mypackage
+import utils
+
+# ❌ 비권장
+# 폴더명: MyPackage, my_package (가능하지만 권장하지 않음)
+```
+
+## 7. 특수 메서드/변수 (Special Methods/Variables)
+
+```python
+# ✅ 권장: 언더스코어로 시작/끝
+class MyClass:
+    def __init__(self):  # 생성자
+        self._private_var = 10  # 내부 사용 (weakly private)
+        self.__private_var = 20  # 이름 변경됨 (strongly private)
+    
+    def __str__(self):  # 문자열 표현
+        return "MyClass"
+    
+    def _internal_method(self):  # 내부 메서드
+        pass
+
+# 매직 메서드 (특수 메서드)
+__init__, __str__, __repr__, __len__, __eq__
+```
+
+### 프라이빗 변수 설명
+
+```python
+class Example:
+    def __init__(self):
+        self.public_var = 1      # 공개 변수
+        self._single_underscore = 2  # 약한 프라이빗 (내부 사용 권장)
+        self.__double_underscore = 3  # 강한 프라이빗 (이름 변경됨)
+```
+
+- `_single_underscore`: 관례적으로 내부 사용만을 의미 (실제로는 접근 가능)
+- `__double_underscore`: 이름 변경(mangling)되어 외부에서 직접 접근 어려움
+
+## 8. 예외 클래스 (Exception Classes)
+
+```python
+# ✅ 권장: PascalCase + "Error" 접미사
+class ValidationError(Exception):
+    pass
+
+class DatabaseConnectionError(Exception):
+    pass
+
+class InvalidInputError(Exception):
+    pass
+```
+
+## 9. 전역 변수 (Global Variables)
+
+```python
+# ✅ 권장: 모듈 내부에서만 사용하는 전역변수는 소문자
+_global_variable = None  # 모듈 내부용
+
+# 공개 전역변수는 소문자
+DEFAULT_CONFIG = {}
+```
+
+## 10. 약어 및 축약어
+
+```python
+# ✅ 권장: 약어는 전체를 대문자로
+class XMLParser:
+    pass
+
+class HTMLGenerator:
+    pass
+
+class HTTPClient:
+    pass
+
+# ❌ 비권장
+class XmlParser:  # 첫 글자만 대문자
+```
+
+## 11. 네이밍 컨벤션 요약표
+
+| 항목 | 스타일 | 예시 |
+|------|--------|------|
+| 변수 | `snake_case` | `user_name`, `total_count` |
+| 함수 | `snake_case` | `calculate_total()`, `get_user()` |
+| 클래스 | `PascalCase` | `UserProfile`, `DatabaseConnection` |
+| 상수 | `UPPER_SNAKE_CASE` | `MAX_SIZE`, `API_KEY` |
+| 모듈 | `snake_case` | `user_utils.py`, `database.py` |
+| 패키지 | `lowercase` | `mypackage`, `utils` |
+| 프라이빗 변수 | `_single_leading_underscore` | `_internal_var` |
+| 강한 프라이빗 | `__double_leading_underscore` | `__private_var` |
+| 매직 메서드 | `__double_underscore__` | `__init__`, `__str__` |
+| 예외 클래스 | `PascalCase` + `Error` | `ValidationError` |
+
+## 12. 추가 권장사항
+
+### 의미 있는 이름 사용
+
+```python
+# ✅ 의미 있는 이름 사용
+def calculate_total_price(items):
+    pass
+
+# ❌ 의미 없는 이름 사용
+def calc(x):
+    pass
+```
+
+### 불린 값 네이밍
+
+```python
+# ✅ 불린 값은 is_, has_, can_ 접두사 사용
+is_valid = True
+has_permission = False
+can_edit = True
+should_update = False
+```
+
+### 컬렉션 네이밍
+
+```python
+# ✅ 컬렉션은 복수형 사용
+users = []
+items = {}
+names = ()
+configurations = []
+
+# ❌ 단수형 사용하지 않기
+user = []  # 나쁨 (리스트인데 단수형)
+```
+
+### 이름 길이
+
+```python
+# ✅ 적절한 길이 (3-20자 정도)
+user_count = 10
+total_price = 1000
+database_connection = None
+
+# ❌ 너무 짧거나 길면 안됨
+x = 10  # 너무 짧음
+the_total_number_of_users_in_the_database = 100  # 너무 김
+```
+
+## 13. 피해야 할 것들
+
+### 단일 문자 사용
+
+```python
+# ❌ 단일 문자 (루프 변수 제외)
+x = 10  # 나쁨
+y = 20  # 나쁨
+
+# ✅ 루프 변수는 괜찮음
+for i in range(10):
+    for j in range(5):
+        pass
+```
+
+### 혼동하기 쉬운 문자
+
+```python
+# ❌ l, O를 단독으로 사용하지 않기 (1, 0과 혼동)
+l = 10  # 나쁨 (1과 혼동)
+O = 20  # 나쁨 (0과 혼동)
+
+# ✅ 대신 명확한 이름 사용
+line_count = 10
+object_count = 20
+```
+
+### 키워드와의 충돌
+
+```python
+# ❌ 파이썬 키워드와 중복되는 이름 사용 불가
+def = 10  # 문법 오류
+class = "test"  # 문법 오류
+import = []  # 문법 오류
+
+# ✅ 언더스코어 추가
+def_ = 10
+class_ = "test"
+import_ = []
+```
+
+### 파이썬 키워드 목록
+
+```python
+# 파이썬 키워드 (사용 불가)
+and, as, assert, break, class, continue, def, del, elif, else,
+except, False, finally, for, from, global, if, import, in, is,
+lambda, None, nonlocal, not, or, pass, raise, return, True,
+try, while, with, yield
+```
+
+## 14. 네임스페이스와 관련된 규칙
+
+### 모듈 내부 변수
+
+```python
+# ✅ 모듈 레벨에서만 사용하는 변수는 _ 접두사
+_module_level_variable = "internal"
+
+# ✅ 공개 API는 명확하게
+PUBLIC_CONSTANT = "public"
+```
+
+### 클래스 속성
+
+```python
+class MyClass:
+    # ✅ 클래스 변수
+    class_variable = 10
+    
+    # ✅ 인스턴스 변수
+    def __init__(self):
+        self.instance_variable = 20
+        self._private_instance = 30
+```
+
+## 15. 실제 예제
+
+### 좋은 예제
+
+```python
+# ✅ 좋은 네이밍
+class UserAccount:
+    MAX_LOGIN_ATTEMPTS = 5
+    
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+        self._login_attempts = 0
+        self.is_active = True
+    
+    def is_valid_email(self):
+        return "@" in self.email
+    
+    def can_login(self):
+        return self._login_attempts < self.MAX_LOGIN_ATTEMPTS
+```
+
+### 나쁜 예제
+
+```python
+# ❌ 나쁜 네이밍
+class userAccount:  # 소문자 시작
+    maxLoginAttempts = 5  # camelCase
+    
+    def __init__(self, u, e):  # 의미 없는 변수명
+        self.u = u
+        self.e = e
+        self.loginAttempts = 0  # camelCase
+        self.active = True  # 불린 값인데 is_ 접두사 없음
+    
+    def isValidEmail(self):  # camelCase
+        return "@" in self.e
+```
+
+## 16. 참고 자료
+
+- **PEP 8**: Python Enhancement Proposal 8 - Style Guide for Python Code
+- **PEP 484**: Type Hints (타입 힌팅 관련)
+- **PEP 257**: Docstring Conventions
+
+---
+
+**작성일**: 2024  
+**참고**: Python 3.x 기준, PEP 8 스타일 가이드
+
