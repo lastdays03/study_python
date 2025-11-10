@@ -95,6 +95,6 @@ print("Welcome to the world of Python", end="\n\n")
 print("Welcome to the world of Python", "abc", "def", sep=", ")
 print("%sABC %s %s" % ("apple", "banana", "cherry"))
 
-print("%f" % (1.123456789))
+print("%F" % (1.123456789))
 
 print("aaaa %.8f" % 1.123456789)
