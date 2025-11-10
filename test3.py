@@ -63,8 +63,8 @@
 # result = [x**2 + 10 for x in numbers]
 # print(result)  # [11, 14, 19, 26, 35]
 
-names = ['홍길동', '김철수', '이영희']
-scores = [85, 92, 78]
+# names = ['홍길동', '김철수', '이영희']
+# scores = [85, 92, 78]
 
 # 방법 1: 인덱스 사용
 # students = []
@@ -85,6 +85,16 @@ scores = [85, 92, 78]
 #     students.append(student)
 
 # # 한 줄로 간결하게 표현
-students = [{'name': n, 'score': s} for n, s in zip(names, scores) if s >= 80]
+# students = [{'name': n, 'score': s} for n, s in zip(names, scores) if s >= 80]
 
-print(students)
+# print(students)
+
+print(isinstance(1.5, float))
+
+print("Welcome to the world of Python", end="\n\n")
+print("Welcome to the world of Python", "abc", "def", sep=", ")
+print("%sABC %s %s" % ("apple", "banana", "cherry"))
+
+print("%f" % (1.123456789))
+
+print("aaaa %.8f" % 1.123456789)
