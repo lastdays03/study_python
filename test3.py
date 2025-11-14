@@ -89,12 +89,50 @@
 
 # print(students)
 
-print(isinstance(1.5, float))
+# print(isinstance(1.5, float))
 
-print("Welcome to the world of Python", end="\n\n")
-print("Welcome to the world of Python", "abc", "def", sep=", ")
-print("%sABC %s %s" % ("apple", "banana", "cherry"))
+# print("Welcome to the world of Python", end="\n\n")
+# print("Welcome to the world of Python", "abc", "def", sep=", ")
+# print("%sABC %s %s" % ("apple", "banana", "cherry"))
 
-print("%F" % (1.123456789))
+# print("%F" % (1.123456789))
 
-print("aaaa %.8f" % 1.123456789)
+# print("aaaa %.8f" % 1.123456789)
+
+# a1 = "cat"
+# a2 = "dog"
+# a3 = "bird"
+# print(f"Animal: {a1}, {a2}, {a3}")
+# print("Animal: {1}, {1}, {2}".format(a1, a2, a3))
+
+# i1 = 1
+# i2 = 10000000.123456789
+# print("{}".format(i1))
+# print("{0:10d}".format(i1))
+# print(f"{i1:2<10d}")
+# print(f"{i2:,.3f}")
+# i3 = 0.334
+# print(f"{i3:.0%}")
+# i4 = 66990000
+# print(f"{i4:#x}")
+# i5 = f"{i1} + {i2} = {i1 + i2}"
+# print(i5)
+
+# a1 = input("Press Enter to continue...\n")
+# a2 = input("Press Enter to continue...\n")
+# print(a1)
+# print(a2)
+
+import json
+# f1 = open("./json/test.json", "w")
+# d1 = {"name": "John", "age": 30}
+# f1.write(json.dumps(d1))
+# f1.close()
+
+f1 = open("test.json", "r")
+s1 = f1.read()
+d1 = json.loads(s1)
+print(type(s1))
+print(type(d1["name"]))
+print(d1["name"])
+f1.close()
