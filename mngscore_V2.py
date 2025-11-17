@@ -174,7 +174,7 @@ if __name__ == "__main__":
     while True:
         i1 = input("1. 중간고사 2. 기말고사 0. 종료\n")
         if i1 == "1":
-            score_manager = ScoreManager("scores_midterm.json", ["국어", "영어", "수학", "과학", "사회"])
+            score_manager = ScoreManager("scores_midterm.txt", ["국어", "영어", "수학", "과학", "사회"])
             score_manager.run()
         elif i1 == "2":
             score_manager = ScoreManager("scores_final.json", ["국어", "영어", "수학", "과학", "사회", "체육"])
