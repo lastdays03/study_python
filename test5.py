@@ -39,4 +39,3 @@ cal3 = calendar.monthrange(2024, 3)
 print(cal3)
 print(type(cal3))
 print(calendar.weekday(2024, 3, 1))
-
