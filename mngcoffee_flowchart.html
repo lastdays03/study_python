@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커피 자판기 플로우차트</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #555;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-left: 5px solid #4CAF50;
+        }
+        .diagram-container {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #fafafa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .legend-item {
+            margin: 10px 0;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .legend-shape {
+            width: 60px;
+            height: 40px;
+            margin-right: 15px;
+            display: inline-block;
+            border: 2px solid #333;
+            text-align: center;
+            line-height: 40px;
+        }
+        .legend-start {
+            border-radius: 50%;
+        }
+        .legend-input {
+            transform: skew(-20deg);
+        }
+        .legend-process {
+            border-radius: 0;
+        }
+        .legend-decision {
+            transform: rotate(45deg);
+            border-radius: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>☕ 커피 자판기 시스템 플로우차트</h1>
+
+        <div class="diagram-container">
+            <h2>💁‍♂️ 고객 순서도</h2>
+            <div class="mermaid">
+flowchart TD
+    Start([시작]) --> Menu[/메뉴 선택/]
+    Menu --> Option[/옵션 선택<br/>핫/아이스/]
+    Option --> Payment[/결제 방식 선택<br/>카드/현금/]
+    Payment --> CheckRecipe[레시피 확인]
+    CheckRecipe --> CheckStock[재고 확인]
+    CheckStock --> Decision{제조 가능?}
+    Decision -->|예| ProcessPayment[결제 처리]
+    Decision -->|아니오| StockOut[/재고 소진<br/>메시지 출력/]
+    ProcessPayment --> MakeCoffee[커피 제조]
+    MakeCoffee --> Success[/제조 완료<br/>메시지/]
+    StockOut --> End([종료])
+    Success --> End
+    
+    style Start fill:#e1f5e1,stroke:#4CAF50,stroke-width:3px
+    style End fill:#ffe1e1,stroke:#f44336,stroke-width:3px
+    style Decision fill:#fff4e1,stroke:#ff9800,stroke-width:2px
+    style Menu fill:#e1f0ff,stroke:#2196F3,stroke-width:2px
+    style Option fill:#e1f0ff,stroke:#2196F3,stroke-width:2px
+    style Payment fill:#e1f0ff,stroke:#2196F3,stroke-width:2px
+    style StockOut fill:#ffe1e1,stroke:#f44336,stroke-width:2px
+    style Success fill:#e1f5e1,stroke:#4CAF50,stroke-width:2px
+            </div>
+        </div>
+
+        <div class="diagram-container">
+            <h2>🛠️ 관리자 순서도</h2>
+            <div class="mermaid">
+flowchart TD
+    Start([시작]) --> ModeSelect[/관리 모드 선택/]
+    ModeSelect --> Decision1{관리 항목 선택}
+    Decision1 -->|레시피| RecipeMode[레시피 관리 모드]
+    Decision1 -->|재고| StockMode[재고 관리 모드]
+    
+    RecipeMode --> RecipeMenu[/레시피 메뉴 선택/]
+    RecipeMenu --> RecipeDecision{CRUD 선택}
+    RecipeDecision -->|생성| RecipeCreate[레시피 추가]
+    RecipeDecision -->|조회| RecipeRead[레시피 조회]
+    RecipeDecision -->|수정| RecipeUpdate[레시피 수정]
+    RecipeDecision -->|삭제| RecipeDelete[레시피 삭제]
+    
+    StockMode --> StockMenu[/재고 메뉴 선택/]
+    StockMenu --> StockDecision{CRUD 선택}
+    StockDecision -->|생성| StockCreate[재고 추가]
+    StockDecision -->|조회| StockRead[재고 조회]
+    StockDecision -->|수정| StockUpdate[재고 수정]
+    StockDecision -->|삭제| StockDelete[재고 삭제]
+    
+    RecipeCreate --> SaveData[데이터 저장]
+    RecipeRead --> SaveData
+    RecipeUpdate --> SaveData
+    RecipeDelete --> SaveData
+    StockCreate --> SaveData
+    StockRead --> SaveData
+    StockUpdate --> SaveData
+    StockDelete --> SaveData
+    
+    SaveData --> Complete[/처리 완료<br/>메시지/]
+    Complete --> End([종료])
+    
+    style Start fill:#e1f5e1,stroke:#4CAF50,stroke-width:3px
+    style End fill:#ffe1e1,stroke:#f44336,stroke-width:3px
+    style Decision1 fill:#fff4e1,stroke:#ff9800,stroke-width:2px
+    style RecipeDecision fill:#fff4e1,stroke:#ff9800,stroke-width:2px
+    style StockDecision fill:#fff4e1,stroke:#ff9800,stroke-width:2px
+    style ModeSelect fill:#e1f0ff,stroke:#2196F3,stroke-width:2px
+    style RecipeMenu fill:#e1f0ff,stroke:#2196F3,stroke-width:2px
+    style StockMenu fill:#e1f0ff,stroke:#2196F3,stroke-width:2px
+    style Complete fill:#e1f5e1,stroke:#4CAF50,stroke-width:2px
+            </div>
+        </div>
+
+        <div class="diagram-container">
+            <h2>🔄 전체 시스템 순서도</h2>
+            <div class="mermaid">
+flowchart TD
+    Start([시작]) --> UserType{사용자 유형 선택}
+    UserType -->|고객| CustomerFlow[고객 모드 실행]
+    UserType -->|관리자| AdminFlow[관리자 모드 실행]
+    
+    CustomerFlow --> MenuSelect[/메뉴 선택/]
+    MenuSelect --> OptionSelect[/옵션 선택<br/>핫/아이스/]
+    OptionSelect --> PaymentSelect[/결제 방식 선택/]
+    PaymentSelect --> Check[레시피/재고 확인]
+    Check --> CanMake{제조 가능?}
+    CanMake -->|예| ProcessPayment[결제 처리]
+    CanMake -->|아니오| ErrorMsg[/재고 부족<br/>메시지/]
+    ProcessPayment --> MakeCoffee[커피 제조]
+    MakeCoffee --> SuccessMsg[/제조 완료<br/>메시지/]
+    ErrorMsg --> CustomerEnd([고객 모드 종료])
+    SuccessMsg --> CustomerEnd
+    
+    AdminFlow --> AdminMenu{관리 메뉴 선택}
+    AdminMenu -->|레시피| RecipeMgmt[레시피 CRUD 작업]
+    AdminMenu -->|재고| StockMgmt[재고 CRUD 작업]
+    RecipeMgmt --> AdminComplete[/처리 완료/]
+    StockMgmt --> AdminComplete
+    AdminComplete --> AdminEnd([관리자 모드 종료])
+    
+    CustomerEnd --> Continue{계속 사용?}
+    AdminEnd --> Continue
+    Continue -->|예| UserType
+    Continue -->|아니오| FinalEnd([프로그램 종료])
+    
+    style Start fill:#e1f5e1,stroke:#4CAF50,stroke-width:3px
+    style FinalEnd fill:#ffe1e1,stroke:#f44336,stroke-width:3px
+    style CustomerEnd fill:#ffe1e1,stroke:#f44336,stroke-width:2px
+    style AdminEnd fill:#ffe1e1,stroke:#f44336,stroke-width:2px
+    style UserType fill:#fff4e1,stroke:#ff9800,stroke-width:2px
+    style CanMake fill:#fff4e1,stroke:#ff9800,stroke-width:2px
+    style AdminMenu fill:#fff4e1,stroke:#ff9800,stroke-width:2px
+    style Continue fill:#fff4e1,stroke:#ff9800,stroke-width:2px
+    style MenuSelect fill:#e1f0ff,stroke:#2196F3,stroke-width:2px
+    style OptionSelect fill:#e1f0ff,stroke:#2196F3,stroke-width:2px
+    style PaymentSelect fill:#e1f0ff,stroke:#2196F3,stroke-width:2px
+    style ErrorMsg fill:#ffe1e1,stroke:#f44336,stroke-width:2px
+    style SuccessMsg fill:#e1f5e1,stroke:#4CAF50,stroke-width:2px
+    style AdminComplete fill:#e1f5e1,stroke:#4CAF50,stroke-width:2px
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3>📐 순서도 기호 설명</h3>
+            <div class="legend-item">
+                <div class="legend-shape legend-start">시작/종료</div>
+                <div><strong>타원형</strong>: 프로그램의 시작과 종료를 나타냅니다.</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-shape legend-input">입력/출력</div>
+                <div><strong>평행사변형</strong>: 사용자 입력 및 메시지 출력을 나타냅니다.</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-shape legend-process">처리</div>
+                <div><strong>사각형</strong>: 처리 과정(계산, 확인, 저장 등)을 나타냅니다.</div>
+            </div>
+            <div class="legend-item">
+                <div class="legend-shape legend-decision">판단</div>
+                <div><strong>마름모</strong>: 판단/조건 분기를 나타냅니다.</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
