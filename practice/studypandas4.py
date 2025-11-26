@@ -169,5 +169,8 @@ print(df3.drop(columns=['2010-2015 증가율', '2010']))
 print(df3)
 
 # axis 지정하여 삭제 (0: 행, 1: 열)
-print(df3.drop(['대구'], axis=0))
-print(df3.drop(columns=['2010-2015 증가율'], axis=1))
+# 행 삭제 시에는 `index` 파라미터를, 열 삭제 시에는 `columns` 파라미터를 사용하는 것이 가독성 측면에서 권장됩니다.
+print(df3.drop(['대구'], axis=0)) # index=['대구'] 와 동일
+print(df3.drop(index=['대구'], axis=1)) # 이 코드는 오류를 발생시킵니다. axis=1은 열을 의미하며, index 파라미터는 행 레이블을 지정합니다.
+print(df3.drop(['2010-2015 증가율'], axis=1)) # columns=['2010-2015 증가율'] 와 동일
+print(df3.drop(columns=['2010-2015 증가율'], axis=0)) # 이 코드는 오류를 발생시킵니다. axis=0은 행을 의미하며, columns 파라미터는 열 레이블을 지정합니다.
