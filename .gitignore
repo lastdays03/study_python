@@ -12,3 +12,4 @@ venv/
 .vscode/
 # test/output logs
 *.log
+서울특별시_일반음식점.csv

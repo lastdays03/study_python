@@ -4,6 +4,7 @@ from matplotlib import font_manager, rc
 from matplotlib import pyplot as plt
 import pandas as pd
 import numpy as np
+import seaborn as sns
 
 system = platform.system()
 if system == "Windows":
